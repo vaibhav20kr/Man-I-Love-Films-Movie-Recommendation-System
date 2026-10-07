@@ -30,15 +30,11 @@ python manage.py runserver
 
 Open [http://127.0.0.1:8000/](http://127.0.0.1:8000/) in your browser.
 
-## Django Admin
+## Django Admin Screenshots
+<img width="300" height="150" alt="Screenshot 2026-10-07 165446" src="https://github.com/user-attachments/assets/701b3811-e04a-4235-b13f-b638d0654b1d" />
+<img width="300" height="150" alt="Screenshot 2026-10-07 165519" src="https://github.com/user-attachments/assets/ba5ad4bc-2d19-4d2d-9270-24e3c77bc9aa" />
+<img width="300" height="150" alt="Screenshot 2026-10-07 165844" src="https://github.com/user-attachments/assets/4c956f58-823f-47d0-aa31-fb9e577f7c6e" />
 
-Create an admin account:
-
-```powershell
-python manage.py createsuperuser
-```
-
-Then open [http://127.0.0.1:8000/admin/](http://127.0.0.1:8000/admin/).
 
 ## Seed data
 
