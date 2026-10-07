@@ -27,7 +27,8 @@ python manage.py runserver
 Open [http://127.0.0.1:8000/](http://127.0.0.1:8000/).
 
 ## Admin Screenshots
-<img width="640" height="320" alt="Screenshot 2026-10-07 165743" src="https://github.com/user-attachments/assets/9895b698-1dc5-4c59-8d5b-a3ce6b52f961" />
-<img width="640" height="320" alt="Screenshot 2026-10-07 165519" src="https://github.com/user-attachments/assets/0adae1f7-b2d8-4184-858c-bc19ad7a7d71" />
-<img width="640" height="320" alt="Screenshot 2026-10-07 165446" src="https://github.com/user-attachments/assets/aedef2fa-a7fc-400a-87a2-6bf3c1c53c8f" />
+<img width="776" height="489" alt="Screenshot 2026-10-07 165446" src="https://github.com/user-attachments/assets/7dd6b317-3d17-4cdf-96c7-ca4aefa5719b" />
+<img width="780" height="450" alt="Screenshot 2026-10-07 165519" src="https://github.com/user-attachments/assets/31ae7822-ccdf-4f6c-a34b-6d81a8d2aef8" />
+<img width="780" height="450" alt="Screenshot 2026-10-07 165844" src="https://github.com/user-attachments/assets/814e947f-748f-4b04-af35-e621fb1e9817" />
+
 
