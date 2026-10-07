@@ -40,5 +40,3 @@ Open [http://127.0.0.1:8000/](http://127.0.0.1:8000/) in your browser.
 <img width="300" height="150" alt="Screenshot 2026-10-07 183110" src="https://github.com/user-attachments/assets/e62e08e9-f1ba-4c67-a493-fa47d5207fed" />
 <img width="300" height="150" alt="Screenshot 2026-10-07 183256" src="https://github.com/user-attachments/assets/81bf3dd4-ed3c-4969-9edd-124c6c86dca3" />
 
-
-The development server is for local use; production deployment needs separate Django settings.
