@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Man I Love Films — Movie Recommender</title>
+    <style>
+        :root {
+            color-scheme: dark;
+            --paper: #11131b;
+            --white: #1b1e29;
+            --ink: #eeeaf2;
+            --muted: #c0bdc8;
+            --line: #3c3e4b;
+            --coral: #ef7773;
+            --teal: #86d7ce;
+            --yellow: #efd36c;
+        }
+        * { box-sizing: border-box; }
+        html { min-width: 320px; }
+        body {
+            margin: 0;
+            color: var(--ink);
+            background-color: var(--paper);
+            background-image: radial-gradient(rgba(240,237,248,.07) .7px, transparent .7px);
+            background-size: 9px 9px;
+            font-family: Inter, "Segoe UI", Arial, sans-serif;
+            font-size: 15px;
+            line-height: 1.55;
+        }
+        a { color: inherit; }
+        .shell { width: calc(100% - 48px); max-width: 1180px; min-width: 0; margin: 0 auto; }
+        .topbar { min-height: 72px; display: flex; align-items: center; justify-content: space-between; gap: 18px; border-bottom: 1px solid var(--line); }
+        .brand { display: flex; align-items: center; gap: 11px; text-decoration: none; }
+        .brand-mark { width: 72px; height: 35px; display: grid; place-items: center; color: #17171b; background: var(--yellow); border: 1.5px solid var(--ink); box-shadow: 3px 3px 0 var(--coral); font-size: 14px; font-weight: 950; }
+        .brand-name { font-size: 11px; font-weight: 950; letter-spacing: .15em; text-transform: uppercase; }
+        .brand-lockup { display: flex; flex-direction: column; gap: 5px; }
+        .brand-name { display: flex; align-items: baseline; gap: 7px; line-height: 1; }
+        .brand-word { display: inline-flex; align-items: baseline; white-space: nowrap; }
+        .brand-initial { color: var(--yellow); font-family: Impact, "Arial Narrow", sans-serif; font-size: clamp(25px, 3vw, 31px); font-weight: 900; line-height: .9; }
+        .brand-rest { color: var(--ink); font-size: clamp(13px, 1.5vw, 16px); font-weight: 850; letter-spacing: -.035em; }
+        .brand-subtitle { color: var(--muted); font: 700 9px ui-monospace, SFMono-Regular, Consolas, monospace; letter-spacing: .12em; text-transform: uppercase; }
+        .top-note { color: var(--muted); font: 700 10px ui-monospace, SFMono-Regular, Consolas, monospace; letter-spacing: .08em; text-align: right; text-transform: uppercase; }
+        .hero { display: grid; grid-template-columns: minmax(0, 1fr) minmax(180px, 250px); align-items: end; gap: 30px; padding: 58px 0 39px; }
+        .eyebrow { display: inline-flex; align-items: center; gap: 8px; color: var(--teal); font: 900 10px ui-monospace, SFMono-Regular, Consolas, monospace; letter-spacing: .12em; text-transform: uppercase; }
+        .eyebrow::before { width: 12px; height: 12px; content: ""; background: var(--coral); border: 1px solid var(--ink); transform: rotate(8deg); }
+        h1 { margin: 13px 0; font-family: Impact, "Arial Narrow", "Segoe UI", sans-serif; font-size: clamp(52px, 7.5vw, 88px); font-weight: 900; line-height: .9; letter-spacing: -.025em; text-transform: uppercase; }
+        h1 span { color: var(--yellow); }
+        .hero-copy { max-width: 520px; margin: 0; color: var(--muted); font-size: 15px; }
+        .hero-note { padding: 13px 14px; color: var(--white); background: var(--yellow); border: 1.5px solid #d7f6f0; box-shadow: 4px 4px 0 rgba(239,119,115,.75); }
+        .hero-note strong { display: block; margin-bottom: 5px; font: 900 10px ui-monospace, SFMono-Regular, Consolas, monospace; letter-spacing: .1em; text-transform: uppercase; }
+        .hero-note span { color: #283d3b; font-size: 12px; }
+        .search-panel { min-width: 0; padding: 22px; margin: 0 0 46px; background: var(--white); border: 1px solid var(--line); border-top: 2px solid var(--teal); border-radius: 5px; box-shadow: 4px 4px 0 rgba(239,119,115,.35); }
+        .panel-head { display: flex; align-items: baseline; justify-content: space-between; gap: 14px; margin-bottom: 17px; }
+        .panel-head h2 { margin: 0; color: var(--ink); font-size: 15px; font-weight: 900; letter-spacing: .05em; text-transform: uppercase; }
+        .last-search { color: var(--muted); font-size: 12px; }
+        .genre-list { display: flex; flex-wrap: wrap; gap: 8px; min-width: 0; max-width: 100%; }
+        .genre-option { position: relative; max-width: 100%; }
+        .genre-option input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+        .genre-option span { display: inline-flex; align-items: center; min-height: 36px; padding: 6px 11px; color: #e5e2eb; background: #242733; border: 1px solid #555866; border-radius: 3px; font-size: 13px; font-weight: 600; cursor: pointer; transition: background-color .14s ease, border-color .14s ease; }
+        .genre-option span:hover { border-color: var(--teal); }
+        .genre-option input:checked + span { color: #18191c; background: var(--yellow); border-color: var(--yellow); font-weight: 850; }
+        .genre-option input:focus-visible + span { outline: 2px solid var(--coral); outline-offset: 3px; }
+        .form-actions { display: flex; align-items: center; gap: 18px; margin-top: 20px; }
+        .submit-button { min-height: 42px; padding: 0 17px; color: #fff; background: #a84243; border: 1px solid #d38a87; border-radius: 3px; box-shadow: 2px 2px 0 rgba(239,119,115,.4); font-size: 12px; font-weight: 900; letter-spacing: .04em; text-transform: uppercase; cursor: pointer; transition: background-color .14s ease; }
+        .submit-button:hover { background: #bd5351; }
+        .submit-button { display: inline-flex; align-items: center; justify-content: center; gap: 12px; min-height: 48px; padding: 0 12px 0 18px; color: #1a1718; background: var(--coral); border: 2px solid var(--ink); border-radius: 10px; box-shadow: 0 4px 0 #a64948, 0 6px 0 rgba(238,234,242,.12); font-size: 12px; font-weight: 950; letter-spacing: .045em; text-transform: uppercase; cursor: pointer; transition: background-color .14s ease, transform .14s ease, box-shadow .14s ease; }
+        .submit-button:hover { background: var(--yellow); transform: translateY(-2px); box-shadow: 0 6px 0 #aa9146, 0 8px 0 rgba(238,234,242,.12); }
+        .submit-button:active { transform: translateY(3px); box-shadow: 0 1px 0 #a64948; }
+        .launch-icon { width: 27px; height: 27px; display: grid; place-items: center; border: 2px solid currentColor; border-radius: 50%; font-size: 17px; line-height: 1; }
+        .clear-link { color: var(--muted); font-size: 12px; font-weight: 650; text-decoration: none; }
+        .clear-link:hover { color: var(--teal); text-decoration: underline; }
+        .results-head { display: flex; align-items: end; justify-content: space-between; gap: 16px; padding-bottom: 12px; margin-bottom: 18px; border-bottom: 1px solid var(--line); }
+        #recommendations { scroll-margin-top: 20px; }
+        .results-head h2 { margin: 0; color: var(--ink); font-family: Impact, "Arial Narrow", "Segoe UI", sans-serif; font-size: clamp(24px, 3vw, 32px); font-weight: 800; letter-spacing: -.01em; text-transform: uppercase; }
+        .result-count { padding: 4px 7px; color: #1b1a16; background: var(--yellow); border: 1px solid #78682e; font: 800 10px ui-monospace, SFMono-Regular, Consolas, monospace; white-space: nowrap; }
+        .movie-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 17px; padding-bottom: 60px; }
+        .movie-card { min-width: 0; overflow: hidden; background: var(--white); border: 1px solid var(--line); box-shadow: 2px 2px 0 rgba(134,215,206,.22); transition: border-color .15s ease; }
+        .movie-card:hover { border-color: var(--coral); }
+        .poster-wrap { position: relative; overflow: hidden; background: #252834; border-bottom: 1px solid var(--line); }
+        .poster { display: block; width: 100%; aspect-ratio: 2 / 3; object-fit: cover; background: #252834; }
+        .poster-index { position: absolute; left: 9px; top: 9px; padding: 3px 6px; color: #1b1a16; background: var(--yellow); border: 1px solid var(--ink); font: 900 10px ui-monospace, SFMono-Regular, Consolas, monospace; }
+        .poster-placeholder { aspect-ratio: 2 / 3; display: grid; place-items: center; color: var(--yellow); background: radial-gradient(rgba(239,119,115,.26) .8px, transparent .9px) 0 0/9px 9px, linear-gradient(145deg, #28283a, #181b27); font-family: Impact, "Arial Narrow", sans-serif; font-size: 56px; }
+        .movie-info { padding: 13px; }
+        .title-row { display: flex; align-items: start; justify-content: space-between; gap: 8px; }
+        .movie-title { margin: 0; color: var(--ink); font-size: 14px; font-weight: 850; line-height: 1.3; }
+        .rating { flex: 0 0 auto; color: var(--yellow); font: 800 11px ui-monospace, SFMono-Regular, Consolas, monospace; white-space: nowrap; }
+        .description { min-height: 42px; margin: 9px 0 12px; color: var(--muted); font-size: 13px; line-height: 1.5; }
+        .tag-list { display: flex; flex-wrap: wrap; gap: 6px; }
+        .genre-tag { padding: 3px 7px; color: #b8ede5; background: #202b30; border: 1px solid #496d6b; font: 10px ui-monospace, SFMono-Regular, Consolas, monospace; }
+        .empty-state { grid-column: 1 / -1; padding: 22px; color: var(--muted); background: var(--white); border: 1px dashed #666876; }
+        @media (max-width: 900px) { .movie-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+        @media (max-width: 640px) {
+            .shell { width: calc(100% - 28px); }
+            .topbar { min-height: 62px; }
+            .top-note { max-width: 145px; font-size: 9px; }
+            .hero { grid-template-columns: 1fr; gap: 18px; padding: 42px 0 30px; }
+            .hero-note { max-width: 300px; }
+            .search-panel { padding: 16px; margin-bottom: 36px; }
+            .panel-head, .results-head { align-items: start; flex-direction: column; }
+            .movie-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+            .movie-info { padding: 10px; }
+            .movie-title { font-size: 12px; }
+            .rating { font-size: 10px; }
+            .description { min-height: 54px; font-size: 12px; }
+        }
+        @media (max-width: 370px) { .movie-grid { grid-template-columns: 1fr; } .form-actions { align-items: flex-start; flex-direction: column; gap: 12px; } }
+        @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition-duration: .01ms !important; } }
+    </style>
+</head>
+<body>
+    <div class="shell">
+        <header class="topbar">
+            <a class="brand" href="{% url 'home' %}">
+                <span class="brand-mark" aria-hidden="true">M.I.L.F.</span>
+                
+                <span class="brand-lockup">
+                    <span class="brand-name" aria-label="Man I Love Films">
+                        <span class="brand-word"><span class="brand-initial">M</span><span class="brand-rest">an</span></span>
+                        <span class="brand-word"><span class="brand-initial">I</span></span>
+                        <span class="brand-word"><span class="brand-initial">L</span><span class="brand-rest">ove</span></span>
+                        <span class="brand-word"><span class="brand-initial">F</span><span class="brand-rest">ilms</span></span>
+                    </span>
+                    
+                </span>
+            </a>
+            <span class="top-note">Personal movie collection</span>
+        </header>
+
+        <main>
+            <section class="hero">
+                <div>
+                    <div class="eyebrow">Your film list / Select a level</div>
+                    <h1>Pick a<br><span>genre.</span></h1>
+                    <p class="hero-copy">Choose what you’re in the mood for. Get a fresh set of films from your collection, with already seen recommendations kept out.</p>
+                </div>
+                <aside class="hero-note">
+                    <strong>Tonight's lineup</strong>
+                    <span>Indie, action, comedy, horror and whatever else is in your stack.</span>
+                </aside>
+            </section>
+
+            <section class="search-panel" aria-labelledby="genre-heading">
+                <div class="panel-head">
+                    <h2 id="genre-heading">Choose genres</h2>
+                    {% if selected_genre_names %}
+                        <span class="last-search">Last search: {{ selected_genre_names|join:", " }}</span>
+                    {% endif %}
+                </div>
+                <form method="GET" action="">
+                    <input type="hidden" name="search" value="1">
+                    <div class="genre-list">
+                        {% for genre in genres %}
+                            <label class="genre-option">
+                                <input type="checkbox" name="genres" value="{{ genre.id }}" {% if genre.id in selected_genres %}checked{% endif %}>
+                                <span>{{ genre.name }}</span>
+                            </label>
+                        {% endfor %}
+                    </div>
+                    <div class="form-actions">
+                        <button class="submit-button" type="submit">Show me films →</button>
+
+                        <a class="clear-link" href="?clear=1">Clear genres and history</a>
+                    </div>
+                </form>
+            </section>
+
+            <section aria-labelledby="recommendations-heading">
+            <section id="recommendations" aria-labelledby="recommendations-heading">
+                <div class="results-head">
+                    <h2 id="recommendations-heading">{{ recommendation_heading }}</h2>
+                    <span class="result-count">{{ movies|length }} new picks</span>
+                </div>
+                <div class="movie-grid">
+                    {% for movie in movies %}
+                        <article class="movie-card">
+                            <div class="poster-wrap">
+                                {% if movie.image_url %}
+                                    <img class="poster" src="{{ movie.image_url }}" alt="{{ movie.title }} poster" loading="lazy">
+                                {% else %}
+                                    <div class="poster-placeholder" aria-hidden="true">P</div>
+                                {% endif %}
+                                <span class="poster-index">{{ forloop.counter|stringformat:"02d" }}</span>
+                            </div>
+                            <div class="movie-info">
+                                <div class="title-row">
+                                    <h3 class="movie-title">{{ movie.title }}</h3>
+                                    <span class="rating">★ {{ movie.rating|floatformat:1 }}/5</span>
+                                </div>
+                                <p class="description">{{ movie.description|truncatewords:18 }}</p>
+                                <div class="tag-list">
+                                    {% for genre in movie.genres.all %}
+                                        <span class="genre-tag">{{ genre.name }}</span>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </article>
+                    {% empty %}
+                        <p class="empty-state">{{ empty_message }}</p>
+                    {% endfor %}
+                </div>
+            </section>
+        </main>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const params = new URLSearchParams(window.location.search);
+            const results = document.getElementById("recommendations");
+            if ((params.has("search") || params.has("genres")) && results) {
+                const behavior = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth";
+                results.scrollIntoView({ behavior, block: "start" });
+            }
+        });
+    </script>
+</body>
+</html>
