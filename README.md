@@ -25,14 +25,3 @@ python manage.py runserver
 ```
 
 Open [http://127.0.0.1:8000/](http://127.0.0.1:8000/).
-
-## Admin
-
-Create an admin account with `python manage.py createsuperuser`, then visit [http://127.0.0.1:8000/admin/](http://127.0.0.1:8000/admin/).
-
-## Seed options
-
-- `python manage.py seed_movies --update-existing` updates matching movie records.
-- `python manage.py seed_movies --replace-catalog` deletes movies outside the seed list.
-
-The development server is for local use. Configure Django for production before deploying publicly.
